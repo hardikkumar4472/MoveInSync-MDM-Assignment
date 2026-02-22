@@ -28,9 +28,9 @@ export default function RegionHeatmap({ data, onRegionClick }) {
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white dark:bg-slate-900 p-10 h-[500px] flex flex-col transition-colors duration-300"
+      className="bg-white dark:bg-slate-900 p-6 xs:p-8 md:p-10 px-4 xs:px-6 md:px-10 h-[500px] flex flex-col transition-colors duration-300"
     >
-      <div className="flex justify-between items-center mb-10">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-10">
         <div>
           <h3 className="text-sm font-bold text-slate-400 uppercase tracking-[0.2em] leading-relaxed mb-1 py-1">{t('charts.geographic')}</h3>
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('charts.distribution')}</p>
@@ -52,7 +52,7 @@ export default function RegionHeatmap({ data, onRegionClick }) {
                 onRegionClick(state.activeLabel);
               }
             }}
-            margin={{ top: 0, right: 0, left: 0, bottom: 40 }}
+            margin={{ top: 60, right: 0, left: 15, bottom: 65 }}
             style={{ cursor: 'pointer' }}
           >
             <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="currentColor" className="text-slate-100 dark:text-slate-800" />
@@ -60,9 +60,14 @@ export default function RegionHeatmap({ data, onRegionClick }) {
               dataKey="region" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }}
+              tick={{ fill: '#94a3b8', fontSize: 8, fontWeight: 700 }}
               interval={0}
-              dy={15}
+              angle={-45}
+              textAnchor="end"
+              height={80}
+              dx={-8}
+              dy={10}
+              minTickGap={2}
             />
             <YAxis 
               axisLine={false} 
@@ -75,9 +80,17 @@ export default function RegionHeatmap({ data, onRegionClick }) {
             />
             <Legend 
               verticalAlign="top" 
-              align="right" 
+              align="left" 
               iconType="circle" 
-              wrapperStyle={{ paddingBottom: '30px', fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.1em' }} 
+              wrapperStyle={{ 
+                paddingTop: '10px',
+                paddingBottom: '20px', 
+                fontSize: '10px', 
+                fontWeight: 'bold', 
+                textTransform: 'uppercase', 
+                letterSpacing: '0.1em',
+                top: 0
+              }} 
             />
             <Bar dataKey="v2.4.0" stackId="a" fill="#43b02a" radius={[0, 0, 0, 0]} barSize={32} />
             <Bar dataKey="v2.3.5" stackId="a" fill="#5ec448" />

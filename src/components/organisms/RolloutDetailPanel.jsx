@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Activity, Server, Clock, Share2, Shield, Info } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,6 +9,14 @@ import Typography from '../atoms/Typography';
 export default function RolloutDetailPanel() {
   const dispatch = useDispatch();
   const rollout = useSelector(selectSelectedRollout);
+  const handleClose = useCallback(() => {
+    if (window.history.state?.type === 'rolloutDetail') {
+      window.history.back();
+    } else {
+      dispatch(setSelectedRollout(null));
+    }
+  }, [dispatch]);
+
   useEffect(() => {
     if (rollout) {
       window.history.pushState({ type: 'rolloutDetail' }, '');
@@ -29,7 +37,7 @@ export default function RolloutDetailPanel() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => dispatch(setSelectedRollout(null))}
+            onClick={handleClose}
             className="fixed inset-0 bg-slate-950/40 backdrop-blur-md z-[60]"
           />
           <motion.div
@@ -50,7 +58,7 @@ export default function RolloutDetailPanel() {
                 </div>
               </div>
               <button
-                onClick={() => dispatch(setSelectedRollout(null))}
+                onClick={handleClose}
                 className="p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all shadow-sm"
               >
                 <X size={20} />
@@ -91,7 +99,7 @@ export default function RolloutDetailPanel() {
             </div>
             <div className="p-8 border-t border-slate-100 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-800/30">
                <button 
-                  onClick={() => dispatch(setSelectedRollout(null))}
+                  onClick={handleClose}
                   className="w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl hover:scale-[1.02] transition-all"
                >
                  Close Overview

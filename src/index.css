@@ -26,6 +26,37 @@
     @apply bg-slate-950 text-slate-100;
   }
 
+  /* Global pointer cursor on all interactive elements */
+  button,
+  a,
+  [role="button"],
+  [role="tab"],
+  [role="listitem"],
+  select,
+  label[for],
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="submit"],
+  input[type="button"],
+  .recharts-bar-rectangle,
+  .recharts-layer.recharts-bar-rectangle path,
+  .recharts-layer.recharts-bar-rectangle rect {
+    cursor: pointer;
+  }
+
+  /* Disabled elements */
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  /* Remove focus outlines on recharts chart elements */
+  .recharts-wrapper,
+  .recharts-wrapper *,
+  .recharts-surface {
+    outline: none !important;
+  }
+
   /* Custom Premium Scrollbar */
   ::-webkit-scrollbar {
     width: 8px;

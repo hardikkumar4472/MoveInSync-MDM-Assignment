@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
 import { X, Smartphone, Cpu, Hash, MapPin, Calendar, ShieldCheck, History, Activity, CheckCircle2, Clock, ArrowRight, AlertCircle, Download, Bell, Settings } from 'lucide-react';
@@ -15,19 +15,26 @@ export default function DeviceDetailPanel() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const device = useSelector(selectSelectedDevice);
-  const onClose = () => dispatch(setSelectedDevice(null));
+  const onClose = useCallback(() => {
+    if (window.history.state?.type === 'deviceDetail') {
+      window.history.back();
+    } else {
+      dispatch(setSelectedDevice(null));
+    }
+  }, [dispatch]);
+
   useEffect(() => {
     if (device) {
       window.history.pushState({ type: 'deviceDetail' }, '');
       
       const handlePopState = () => {
-        onClose();
+        dispatch(setSelectedDevice(null));
       };
 
       window.addEventListener('popstate', handlePopState);
       return () => window.removeEventListener('popstate', handlePopState);
     }
-  }, [device]);
+  }, [device, dispatch]);
 
   if (!device) return null;
 

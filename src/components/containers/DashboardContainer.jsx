@@ -33,7 +33,7 @@ export default function DashboardContainer({ onLogout }) {
     return () => clearInterval(timer);
   }, [dispatch]);
 
-  const { userRole,activeTab,setActiveTab,showSchedulingForm,openSchedulingForm, closeSchedulingForm,alert,showAlert,closeAlert} = useUI();
+  const { userRole,activeTab,setActiveTab,setActiveTabQuiet,showSchedulingForm,openSchedulingForm, closeSchedulingForm,alert,showAlert,closeAlert} = useUI();
   const devices = useSelector(selectAllDevices);
   const deviceStatus = useSelector(selectDeviceStatus);
   const deviceError = useSelector(selectDeviceError);
@@ -58,12 +58,12 @@ export default function DashboardContainer({ onLogout }) {
     { id: 'analyst', label: 'Analyst', desc: 'Read Only', icon: UserCheck },
   ], []);
   const handleRegionClick = useCallback((region) => {
-    setActiveTab('inventory');
+    setActiveTabQuiet('inventory');
     setTableFilter({ region });
     setTimeout(() => {
       document.getElementById('device-table')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
-  }, [setActiveTab]);
+  }, [setActiveTabQuiet]);
   const handleDeviceClick = useCallback((device) => {
     dispatch(setSelectedDevice(device));
   }, [dispatch]);
