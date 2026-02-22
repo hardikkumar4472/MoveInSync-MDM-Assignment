@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+@theme {
+  --color-ms-green: #43b02a;
+  --color-ms-green-dark: #389a22;
+  --color-ms-navy: #1a1b3a;
+  --color-ms-slate: #f8fafc;
+  --color-ms-light: #f7fdf7;
+  --font-sans: "Inter", "system-ui", sans-serif;
+  --font-display: "Outfit", "system-ui", sans-serif;
+  --breakpoint-xs: 480px;
+}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  } 
+  html.dark {
+    color-scheme: dark;
+  }
+  body {
+    @apply antialiased font-sans bg-ms-light text-slate-900 transition-colors duration-300;
+  }
+  html.dark body {
+    @apply bg-slate-950 text-slate-100;
+  }
+}
