@@ -38,7 +38,7 @@ export default function KPISection({ data }) {
         id: 'failures',
         title: t('stats.updateFailures'),
         value: failed,
-        subtext: "In Queue",
+        subtext: "Pending Retry",
         icon: XCircle,
         color: "bg-rose-500"
       }

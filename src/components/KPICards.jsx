@@ -83,7 +83,7 @@ export default function KPICards({ data }) {
       <KPICard 
         title={t('stats.updateFailures')} 
         value={failed} 
-        subtext="In Queue"
+        subtext={t('stats.inQueue')}
         icon={XCircle} 
         color="bg-rose-500"
       />

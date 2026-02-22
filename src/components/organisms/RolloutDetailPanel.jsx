@@ -1,12 +1,28 @@
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Activity, Server, Clock, Share2, Shield, Info } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSelectedRollout, setSelectedRollout } from '../../store/slices/rolloutSlice';
 import { cn } from '../../lib/utils';
 import Typography from '../atoms/Typography';
+
 export default function RolloutDetailPanel() {
   const dispatch = useDispatch();
   const rollout = useSelector(selectSelectedRollout);
+
+  // Handle browser back button for mobile UX
+  useEffect(() => {
+    if (rollout) {
+      window.history.pushState({ type: 'rolloutDetail' }, '');
+      
+      const handlePopState = () => {
+        dispatch(setSelectedRollout(null));
+      };
+
+      window.addEventListener('popstate', handlePopState);
+      return () => window.removeEventListener('popstate', handlePopState);
+    }
+  }, [rollout, dispatch]);
   return (
     <AnimatePresence>
       {rollout && (

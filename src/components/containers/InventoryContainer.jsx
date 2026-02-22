@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import InventoryTable from '../organisms/InventoryTable';
 import { EmptyState } from '../molecules/StateFeedback';
 import { Search } from 'lucide-react';
@@ -6,10 +6,21 @@ export default function InventoryContainer({ devices, onDeviceClick, initialFilt
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
     region: initialFilter.region || 'All',
+    version: 'All',
     status: 'All'
   });
   const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'asc' });
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    if (initialFilter.region) {
+      setFilters(prev => ({ ...prev, region: initialFilter.region }));
+    }
+  }, [initialFilter.region]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filters]);
   const itemsPerPage = 8;
   const filteredDevices = useMemo(() => {
     let result = [...devices];
@@ -21,6 +32,9 @@ export default function InventoryContainer({ devices, onDeviceClick, initialFilt
     }
     if (filters.region !== 'All') {
       result = result.filter(d => d.region === filters.region);
+    }
+    if (filters.version !== 'All') {
+      result = result.filter(d => d.appVersion === filters.version);
     }
     if (filters.status !== 'All') {
       result = result.filter(d => d.status === filters.status);
@@ -47,7 +61,7 @@ export default function InventoryContainer({ devices, onDeviceClick, initialFilt
     setFilters(prev => ({ ...prev, [key]: value }));
     setCurrentPage(1);
   };
-  const hasActiveFilters = searchTerm !== "" || filters.region !== 'All' || filters.status !== 'All';
+  const hasActiveFilters = searchTerm !== "" || filters.region !== 'All' || filters.version !== 'All' || filters.status !== 'All';
   return (
     <div className="space-y-6">
       <InventoryTable 

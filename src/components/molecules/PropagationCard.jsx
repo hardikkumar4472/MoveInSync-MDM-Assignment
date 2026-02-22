@@ -1,10 +1,13 @@
 import { Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { cn } from '../../lib/utils';
 import Typography from '../atoms/Typography';
 import Button from '../atoms/Button';
 import Card from './Card';
-export default function PropagationCard({ onShowScheduling }) {
+export default function PropagationCard({ userRole, onShowScheduling }) {
   const { t } = useTranslation();
+  const isAnalyst = userRole === 'analyst';
+  
   return (
     <Card className="p-12 text-slate-900 dark:text-white flex flex-col justify-between group">
       <div className="relative z-10">
@@ -26,7 +29,12 @@ export default function PropagationCard({ onShowScheduling }) {
         </div>
       </div>
       <div className="mt-12 relative z-10">
-        <Button onClick={onShowScheduling} className="w-full">
+        <Button 
+          onClick={onShowScheduling} 
+          disabled={isAnalyst}
+          className={cn("w-full transition-all", isAnalyst && "opacity-40 grayscale")}
+          title={isAnalyst ? "Analyst account: No scheduling permissions" : ""}
+        >
           {t('propagation.wizard')}
         </Button>
       </div>

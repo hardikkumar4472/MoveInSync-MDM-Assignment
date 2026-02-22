@@ -11,7 +11,6 @@ A premium, high-performance Mobile Device Management (MDM) dashboard built for e
    ```bash
    npm install
    ```
-
 ### Running Locally
 Start the development server:
 ```bash

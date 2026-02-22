@@ -60,6 +60,7 @@ export function UIProvider({ children }) {
       showCancel: config.showCancel || false,
       cancelLabel: config.cancelLabel || 'Cancel'
     });
+    window.history.pushState({ type: 'alert' }, '');
   }, []);
   const closeAlert = useCallback(() => {
     setAlert(prev => ({ ...prev, isOpen: false }));
@@ -67,10 +68,34 @@ export function UIProvider({ children }) {
   const openSchedulingForm = useCallback(() => {
     setShowSchedulingForm(true);
     setIsMobileMenuOpen(false);
+    window.history.pushState({ type: 'schedulingForm' }, '');
   }, []);
+
   const closeSchedulingForm = useCallback(() => {
     setShowSchedulingForm(false);
   }, []);
+
+  // Sync with browser back button
+  useEffect(() => {
+    const handlePopState = (e) => {
+      if (alert.isOpen) {
+        closeAlert();
+      } else if (showSchedulingForm) {
+        setShowSchedulingForm(false);
+      } else if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [showSchedulingForm, isMobileMenuOpen, alert.isOpen, closeAlert]);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      window.history.pushState({ type: 'mobileMenu' }, '');
+    }
+  }, [isMobileMenuOpen]);
   const value = { darkMode, toggleDarkMode, userRole, setUserRole: handleRoleChange, activeTab, setActiveTab: handleTabChange, isMobileMenuOpen, toggleMobileMenu, closeMobileMenu, showSchedulingForm, openSchedulingForm, closeSchedulingForm, alert, showAlert, closeAlert
   };
   return (

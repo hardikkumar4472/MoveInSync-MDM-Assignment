@@ -21,7 +21,7 @@ import { Skeleton, KPISkeleton, TableSkeleton, ErrorState } from '../molecules/S
 import { heatmapData } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { selectAllDevices, selectDeviceStatus, selectDeviceError, fetchDevices,setSelectedDevice} from '../../store/slices/deviceSlice';
-import { selectAllRollouts, selectRolloutStatus, fetchRollouts } from '../../store/slices/rolloutSlice';
+import { selectAllRollouts, selectRolloutStatus, fetchRollouts, addRollout } from '../../store/slices/rolloutSlice';
 export default function DashboardContainer({ onLogout }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -77,14 +77,37 @@ export default function DashboardContainer({ onLogout }) {
               userRole={userRole}
               onCancel={closeSchedulingForm} 
               onSubmit={(data) => { 
+                const rolloutId = `ROLL-${Math.floor(Math.random() * 9000) + 1000}`;
+                const newRollout = {
+                  id: rolloutId,
+                  name: data.customTag || "Fleet Update Propagation",
+                  toVersion: data.toVersion || "v2.4.0",
+                  fromVersion: data.fromVersion || "v2.3.6",
+                  status: data.status || 'Active',
+                  type: data.rolloutType || 'Immediate',
+                  progress: 0,
+                  region: data.region || 'All',
+                  startTime: new Date().toLocaleString(),
+                  stages: { 
+                    scheduled: 1200, notified: 0, downloading: 0, 
+                    installing: 0, completed: 0, failed: 0 
+                  }
+                };
+                
+                dispatch(addRollout(newRollout));
                 closeSchedulingForm(); 
                 setActiveTab('monitor');
-                showAlert({
-                  type: 'success',
-                  title: 'Rollout Initiated',
-                  message: `The fleet update to ${data.toVersion} has been successfully queued for ${data.region} nodes.`,
-                  confirmLabel: 'View Progress'
-                });
+                
+                setTimeout(() => {
+                  showAlert({
+                    type: data.status === 'Pending Approval' ? 'info' : 'success',
+                    title: data.status === 'Pending Approval' ? 'Approval Requested' : 'Rollout Initiated',
+                    message: data.status === 'Pending Approval' 
+                      ? `Your request for ${data.toVersion} in ${data.region} has been submitted for Admin approval.`
+                      : `The fleet update to ${data.toVersion} has been successfully queued for ${data.region} nodes.`,
+                    confirmLabel: 'Acknowledge'
+                  });
+                }, 300);
               }}
             />
           </motion.div>
@@ -100,7 +123,7 @@ export default function DashboardContainer({ onLogout }) {
           ) : rolloutStatus === 'failed' ? (
             <ErrorState onRetry={handleRetryRollouts} />
           ) : (
-            <RolloutMonitor rollouts={rollouts} />
+            <RolloutMonitor rollouts={rollouts} userRole={userRole} />
           )
         ) : activeTab === 'audit' ? (
           <AuditLog />
@@ -136,7 +159,7 @@ export default function DashboardContainer({ onLogout }) {
                     {deviceStatus === 'loading' ? (
                       <Skeleton className="h-full min-h-[500px] rounded-[2.5rem]" />
                     ) : (
-                      <PropagationCard onShowScheduling={openSchedulingForm} />
+                      <PropagationCard userRole={userRole} onShowScheduling={openSchedulingForm} />
                     )}
                   </div>
                 </section>

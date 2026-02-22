@@ -33,6 +33,13 @@ const rolloutSlice = createSlice({
         rollout.status = rollout.status === 'Paused' ? 'Active' : 'Paused';
       }
     },
+    approveRollout: (state, action) => {
+      const rollout = state.rollouts.find(r => r.id === action.payload);
+      if (rollout) rollout.status = 'Active';
+    },
+    cancelRollout: (state, action) => {
+      state.rollouts = state.rollouts.filter(r => r.id !== action.payload);
+    },
     setSelectedRollout: (state, action) => {
       state.selectedRollout = action.payload;
     }
@@ -53,7 +60,7 @@ const rolloutSlice = createSlice({
       });
   }
 });
-export const { setRollouts, addRollout, togglePause, setSelectedRollout } = rolloutSlice.actions;
+export const { setRollouts, addRollout, togglePause, approveRollout, cancelRollout, setSelectedRollout } = rolloutSlice.actions;
 export const selectAllRollouts = (state) => state.rollouts.rollouts;
 export const selectSelectedRollout = (state) => state.rollouts.selectedRollout;
 export const selectRolloutStatus = (state) => state.rollouts.status;

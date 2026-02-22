@@ -26,7 +26,8 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
             "totalDevices": "Total Devices",
             "fleetCompliance": "Fleet Compliance",
             "inactiveAssets": "Inactive Assets",
-            "updateFailures": "Update Failures"
+            "updateFailures": "Update Failures",
+            "inQueue": "Pending Retry"
           },
           "charts": {
             "geographic": "Geographic Saturation",
@@ -35,12 +36,12 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
           "inventory": {
             "title": "Device Inventory",
             "subtitle": "Enterprise Asset Registry",
-            "assetId": "Asset ID",
-            "appCore": "App Core",
+            "assetId": "Device ID",
+            "appCore": "Version",
             "osBuild": "OS Build",
             "region": "Region",
-            "heartbeat": "Heartbeat",
-            "health": "Health",
+            "heartbeat": "Last Updated",
+            "health": "Status",
             "integrity": "Fleet Integrity Score"
           },
           "propagation": {
@@ -81,7 +82,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
           "detail": {
             "title": "Asset Metadata",
             "status": "Operational Status",
-            "lastSeen": "Last Heartbeat",
+            "lastSeen": "Last Updated",
             "updateHistory": "Update Audit Timeline"
           },
           "footer": {
@@ -129,7 +130,8 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
             "totalDevices": "कुल डिवाइस",
             "fleetCompliance": "फ्लीट अनुपालन",
             "inactiveAssets": "निष्क्रिय एसेट",
-            "updateFailures": "अपडेट विफलताएं"
+            "updateFailures": "अपडेट विफलताएं",
+            "inQueue": "पुनः प्रयास लंबित"
           },
           "charts": {
             "geographic": "भौगोलिक संतृप्ति",
@@ -138,12 +140,12 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
           "inventory": {
             "title": "डिवाइस इन्वेंटरी",
             "subtitle": "एंटरप्राइज एसेट रजिस्ट्री",
-            "assetId": "एसेट आईडी",
-            "appCore": "ऐप कोर",
+            "assetId": "डिवाइस आईडी",
+            "appCore": "वर्जन",
             "osBuild": "OS बिल्ड",
             "region": "क्षेत्र",
-            "heartbeat": "हार्टबीट",
-            "health": "स्वास्थ्य",
+            "heartbeat": "अंतिम अपडेट",
+            "health": "स्थिति",
             "integrity": "फ्लीट अखंडता स्कोर"
           },
           "propagation": {
@@ -184,7 +186,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
           "detail": {
             "title": "एसेट मेटाडेटा",
             "status": "परिचालन स्थिति",
-            "lastSeen": "अंतिम हार्टबीट",
+            "lastSeen": "अंतिम अपडेट",
             "updateHistory": "अपडेट ऑडिट टाइमलाइन"
           },
           "footer": {
@@ -232,7 +234,8 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
             "totalDevices": "ಒಟ್ಟು ಸಾಧನಗಳು",
             "fleetCompliance": "ಫ್ಲೀಟ್ ಅನುಸರಣೆ",
             "inactiveAssets": "ನಿಷ್ಕ್ರಿಯ ಆಸ್ತಿಗಳು",
-            "updateFailures": "ಅಪ್‌ಡೇಟ್ ವಿಫಲತೆಗಳು"
+            "updateFailures": "ಅಪ್‌ಡೇಟ್ ವಿಫಲತೆಗಳು",
+            "inQueue": "ಮತ್ತೆ ಪ್ರಯತ್ನ ಬಾಕಿ ಇದೆ"
           },
           "charts": {
             "geographic": "ಭೌಗೋಳಿಕ ಸ್ಯಾಚುರೇಶನ್",
@@ -241,12 +244,12 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
           "inventory": {
             "title": "ಸಾಧನ ದಾಸ್ತಾನು",
             "subtitle": "ಎಂಟರ್‌ಪ್ರೈಸ್ ಆಸ್ತಿ ನೋಂದಣಿ",
-            "assetId": "ಆಸ್ತಿ ಐಡಿ",
-            "appCore": "ಆ್ಯಪ್ ಕೋರ್",
+            "assetId": "ಸಾಧನ ಐಡಿ",
+            "appCore": "ಆವೃತ್ತಿ",
             "osBuild": "OS ಬಿಲ್ಡ್",
             "region": "ಪ್ರದೇಶ",
-            "heartbeat": "ಹಾರ್ಟ್‌ಬೀಟ್",
-            "health": "ಆರೋಗ್ಯ",
+            "heartbeat": "ಕೊನೆಯ ಅಪ್‌ಡೇಟ್",
+            "health": "ಸ್ಥಿತಿ",
             "integrity": "ಫ್ಲೀಟ್ ಸಮಗ್ರತೆಯ ಸ್ಕೋರ್"
           },
           "propagation": {
@@ -287,7 +290,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
           "detail": {
             "title": "ಆಸ್ತಿ ಮೆಟಾಡೇಟಾ",
             "status": "ಕಾರ್ಯಾಚರಣೆಯ ಸ್ಥಿತಿ",
-            "lastSeen": "ಕೊನೆಯ ಹಾರ್ಟ್‌ಬೀಟ್",
+            "lastSeen": "ಕೊನೆಯ ಅಪ್‌ಡೇಟ್",
             "updateHistory": "ಅಪ್‌ಡೇಟ್ ಆಡಿಟ್ ಟೈಮ್‌ಲೈನ್"
           },
           "footer": {

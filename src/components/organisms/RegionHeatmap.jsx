@@ -43,8 +43,8 @@ export default function RegionHeatmap({ data, onRegionClick }) {
         </div>
       </div>
       
-      <div className="flex-1 w-full h-full min-h-0 min-w-0 -ml-8 relative">
-        <ResponsiveContainer width="100%" height="100%" minWidth={0} debounce={300}>
+      <div className="flex-1 w-full relative min-h-0">
+        <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
           <BarChart
             data={data}
             onClick={(state) => {
@@ -53,6 +53,7 @@ export default function RegionHeatmap({ data, onRegionClick }) {
               }
             }}
             margin={{ top: 0, right: 0, left: 0, bottom: 20 }}
+            style={{ cursor: 'pointer' }}
           >
             <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="currentColor" className="text-slate-100 dark:text-slate-800" />
             <XAxis 
@@ -67,7 +68,10 @@ export default function RegionHeatmap({ data, onRegionClick }) {
               tickLine={false} 
               tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'currentColor', className: 'text-slate-50 dark:text-slate-800' }} />
+            <Tooltip 
+              content={<CustomTooltip />} 
+              cursor={{ fill: 'rgba(0,0,0,0.05)', radius: 8 }} 
+            />
             <Legend 
               verticalAlign="top" 
               align="right" 

@@ -48,20 +48,20 @@ export default function Navbar({ roles, onLogout }) {
               active={activeTab === 'monitor'}
               onClick={() => setActiveTab('monitor')}
             />
-            <div className={cn(userRole === 'analyst' && "invisible pointer-events-none")}>
-              <TopNavItem
-                label={t('nav.scheduling')}
-                active={showSchedulingForm}
-                onClick={openSchedulingForm}
-              />
-            </div>
-            <div className={cn(userRole !== 'admin' && "invisible pointer-events-none")}>
-              <TopNavItem
-                label={t('nav.auditLogs')}
-                active={activeTab === 'audit'}
-                onClick={() => setActiveTab('audit')}
-              />
-            </div>
+            <TopNavItem
+              label={t('nav.scheduling')}
+              active={showSchedulingForm}
+              disabled={userRole === 'analyst'}
+              onClick={userRole === 'analyst' ? undefined : openSchedulingForm}
+              tooltip={userRole === 'analyst' ? "Analyst account: No scheduling permissions" : ""}
+            />
+            <TopNavItem
+              label={t('nav.auditLogs')}
+              active={activeTab === 'audit'}
+              disabled={userRole !== 'admin'}
+              onClick={userRole === 'admin' ? () => setActiveTab('audit') : undefined}
+              tooltip={userRole !== 'admin' ? "Administrator account required" : ""}
+            />
           </div>
         </div>
         <div className="flex items-center gap-1.5 md:gap-3 flex-shrink-0">
@@ -87,16 +87,16 @@ export default function Navbar({ roles, onLogout }) {
             ))}
           </div>
 
-          {userRole !== 'analyst' && (
-            <Button 
-              variant="primary"
-              onClick={openSchedulingForm}
-              className="hidden sm:flex"
-              ariaLabel="Request a fleet update"
-            >
-              {t('nav.requestUpdate')}
-            </Button>
-          )}
+          <Button 
+            variant="primary"
+            onClick={openSchedulingForm}
+            disabled={userRole === 'analyst'}
+            className={cn("hidden sm:flex transition-all", userRole === 'analyst' && "opacity-40 grayscale")}
+            title={userRole === 'analyst' ? "Analyst account: No scheduling permissions" : ""}
+            ariaLabel="Request a fleet update"
+          >
+            {t('nav.requestUpdate')}
+          </Button>
           <div className="h-10 w-[1px] bg-slate-100 dark:bg-slate-800 hidden sm:block" />  
           <button 
             onClick={toggleDarkMode}
@@ -148,20 +148,20 @@ export default function Navbar({ roles, onLogout }) {
                 active={activeTab === 'monitor'}
                 onClick={() => setActiveTab('monitor')}
               />
-              {userRole !== 'analyst' && (
-                <TopNavItem
-                  label={t('nav.scheduling')}
-                  active={showSchedulingForm}
-                  onClick={openSchedulingForm}
-                />
-              )}
-              {userRole === 'admin' && (
-                <TopNavItem
-                  label={t('nav.auditLogs')}
-                  active={activeTab === 'audit'}
-                  onClick={() => setActiveTab('audit')}
-                />
-              )}
+              <TopNavItem
+                label={t('nav.scheduling')}
+                active={showSchedulingForm}
+                disabled={userRole === 'analyst'}
+                onClick={userRole === 'analyst' ? undefined : openSchedulingForm}
+                tooltip={userRole === 'analyst' ? "Analyst account: No scheduling permissions" : ""}
+              />
+              <TopNavItem
+                label={t('nav.auditLogs')}
+                active={activeTab === 'audit'}
+                disabled={userRole !== 'admin'}
+                onClick={userRole === 'admin' ? () => setActiveTab('audit') : undefined}
+                tooltip={userRole !== 'admin' ? "Administrator account required" : ""}
+              />
             </div>
 
             <div className="h-px w-full bg-slate-50 dark:bg-slate-800" />
@@ -217,19 +217,22 @@ export default function Navbar({ roles, onLogout }) {
     </nav>
   );
 }
-function TopNavItem({ label, active = false, onClick }) {
+function TopNavItem({ label, active = false, onClick, disabled = false, tooltip = "" }) {
   return (
     <button 
       onClick={onClick} 
+      disabled={disabled}
+      title={tooltip}
       role="listitem"
       aria-current={active ? "page" : undefined}
       className={cn(
         "relative text-[11px] font-black uppercase tracking-widest transition-all px-4 py-2 cursor-pointer whitespace-nowrap group rounded-xl", 
-        active ? "text-ms-green" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+        active ? "text-ms-green" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white",
+        disabled && "opacity-40 cursor-not-allowed grayscale"
       )}
     >
       <span className="relative z-10 py-1 inline-block">{label}</span>
-      <div className="absolute inset-0 bg-slate-100 dark:bg-slate-800/50 scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all rounded-xl -z-0" />
+      {!disabled && <div className="absolute inset-0 bg-slate-100 dark:bg-slate-800/50 scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all rounded-xl -z-0" />}
       {active && (
         <motion.div 
           layoutId="navPill" 

@@ -6,7 +6,7 @@ import Button from '../atoms/Button';
 import Typography from '../atoms/Typography';
 import Card from '../molecules/Card';
 import { cn } from '../../lib/utils';
-export default function InventoryTable({ devices, onDeviceClick, onSort, searchTerm, onSearchChange, filters, nFilterChange, pagination, onPageChange, isEmpty, emptyComponent
+export default function InventoryTable({ devices, onDeviceClick, onSort, searchTerm, onSearchChange, filters, onFilterChange, pagination, onPageChange, isEmpty, emptyComponent
 }) {
   const { t } = useTranslation();
   return (
@@ -29,15 +29,33 @@ export default function InventoryTable({ devices, onDeviceClick, onSort, searchT
             ariaLabel="Filter by Region"
             value={filters.region} 
             onChange={(val) => onFilterChange('region', val)}
-            options={['All', 'Bangalore', 'Mumbai', 'Delhi', 'Hyderabad']}
+            options={['All', 'Bangalore', 'Mumbai', 'Delhi', 'Hyderabad', 'Chennai', 'Pune']}
+          />
+          <FilterSelect 
+            label="Version" 
+            ariaLabel="Filter by Version"
+            value={filters.version} 
+            onChange={(val) => onFilterChange('version', val)}
+            options={['All', 'v2.4.0', 'v2.3.6', 'v2.3.5', 'v2.3.0', 'v2.2.0']}
           />
           <FilterSelect 
             label="Status" 
             ariaLabel="Filter by Status"
             value={filters.status} 
             onChange={(val) => onFilterChange('status', val)}
-            options={['All', 'Up-to-date', 'Outdated', 'Failed']}
+            options={['All', 'Up-to-date', 'Outdated', 'Failed', 'Inactive']}
           />
+          <button 
+            onClick={() => {
+              onFilterChange('region', 'All');
+              onFilterChange('version', 'All');
+              onFilterChange('status', 'All');
+              onSearchChange('');
+            }}
+            className="text-[10px] text-ms-green font-black uppercase tracking-widest hover:text-ms-green-dark transition-colors px-2"
+          >
+            Reset
+          </button>
           <Button variant="secondary" size="icon" className="rounded-xl p-2.5" ariaLabel="More filters">
             <Filter size={20} />
           </Button>
@@ -55,7 +73,6 @@ export default function InventoryTable({ devices, onDeviceClick, onSort, searchT
                 <tr className="border-b border-slate-50 dark:border-slate-800">
                   <SortableHeader label={t('inventory.assetId')} onClick={() => onSort('id')} />
                   <Header label={t('inventory.appCore')} />
-                  <Header label={t('inventory.osBuild')} />
                   <Header label={t('inventory.region')} />
                   <SortableHeader label={t('inventory.heartbeat')} onClick={() => onSort('lastSeen')} />
                   <Header label={t('inventory.health')} center />
@@ -86,9 +103,6 @@ export default function InventoryTable({ devices, onDeviceClick, onSort, searchT
                     </td>
                     <td className="px-6 py-5">
                       <Typography variant="caption" className="font-bold text-slate-700 dark:text-slate-300">{device.appVersion}</Typography>
-                    </td>
-                    <td className="px-6 py-5">
-                      <Typography variant="caption" className="font-medium text-slate-600 dark:text-slate-400">{device.os}</Typography>
                     </td>
                     <td className="px-6 py-5">
                       <Typography variant="caption" className="font-bold uppercase tracking-wider">{device.region}</Typography>
