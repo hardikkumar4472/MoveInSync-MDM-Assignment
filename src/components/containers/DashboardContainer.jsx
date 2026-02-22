@@ -21,10 +21,18 @@ import { Skeleton, KPISkeleton, TableSkeleton, ErrorState } from '../molecules/S
 import { heatmapData } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { selectAllDevices, selectDeviceStatus, selectDeviceError, fetchDevices,setSelectedDevice} from '../../store/slices/deviceSlice';
-import { selectAllRollouts, selectRolloutStatus, fetchRollouts, addRollout } from '../../store/slices/rolloutSlice';
+import { selectAllRollouts, selectRolloutStatus, fetchRollouts, addRollout, simulateProgress } from '../../store/slices/rolloutSlice';
 export default function DashboardContainer({ onLogout }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  
+  useEffect(() => {
+    const timer = setInterval(() => {
+      dispatch(simulateProgress());
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [dispatch]);
+
   const { userRole,activeTab,setActiveTab,showSchedulingForm,openSchedulingForm, closeSchedulingForm,alert,showAlert,closeAlert} = useUI();
   const devices = useSelector(selectAllDevices);
   const deviceStatus = useSelector(selectDeviceStatus);

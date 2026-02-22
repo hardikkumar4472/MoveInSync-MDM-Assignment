@@ -42,10 +42,10 @@ export default function UpdateScheduleForm({ onSubmit, onCancel, userRole = 'adm
     for (let i = 0; i < Math.max(v1.length, v2.length); i++) {
       const a = v1[i] || 0;
       const b = v2[i] || 0;
-      if (a > b) return -1; // Lower
-      if (a < b) return 1;  // Higher
+      if (a > b) return -1; 
+      if (a < b) return 1;  
     }
-    return 0; // Equal
+    return 0;
   }, [formData.fromVersion, formData.toVersion]);
 
   const validateStep = (currentStep) => {
@@ -60,6 +60,15 @@ export default function UpdateScheduleForm({ onSubmit, onCancel, userRole = 'adm
     if (currentStep === 2) {
       if (matchingDevicesCount === 0) {
         newErrors.region = `Warning: No devices found in ${formData.region} with version ${formData.fromVersion}.`;
+      }
+    }
+    if (currentStep === 3) {
+      if (formData.rolloutType === 'Scheduled') {
+        if (!formData.scheduledDate) {
+          newErrors.schedule = "Please select a deployment time.";
+        } else if (new Date(formData.scheduledDate) <= new Date()) {
+          newErrors.schedule = "Deployment time must be in the future.";
+        }
       }
     }
     setErrors(newErrors);
@@ -231,7 +240,23 @@ export default function UpdateScheduleForm({ onSubmit, onCancel, userRole = 'adm
                 {formData.rolloutType === 'Scheduled' && (
                   <div className="p-8 bg-slate-50 rounded-2xl border border-slate-100 space-y-4">
                     <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Deployment Date & Time</label>
-                    <input type="datetime-local" className="w-full p-4 rounded-xl border-slate-200" />
+                    <input 
+                      type="datetime-local" 
+                      className="w-full p-4 rounded-xl border-slate-200" 
+                      value={formData.scheduledDate}
+                      min={(() => {
+                        const now = new Date();
+                        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                        return now.toISOString().slice(0, 16);
+                      })()}
+                      onChange={(e) => setFormData({...formData, scheduledDate: e.target.value})}
+                    />
+                    {errors.schedule && (
+                      <div className="flex items-center gap-2 text-rose-500 pt-2">
+                        <AlertCircle size={14} />
+                        <span className="text-[10px] font-bold uppercase tracking-tight">{errors.schedule}</span>
+                      </div>
+                    )}
                   </div>
                 )}
                 {formData.rolloutType === 'Phased' && (

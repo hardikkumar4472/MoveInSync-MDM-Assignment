@@ -9,8 +9,6 @@ import Typography from '../atoms/Typography';
 export default function RolloutDetailPanel() {
   const dispatch = useDispatch();
   const rollout = useSelector(selectSelectedRollout);
-
-  // Handle browser back button for mobile UX
   useEffect(() => {
     if (rollout) {
       window.history.pushState({ type: 'rolloutDetail' }, '');

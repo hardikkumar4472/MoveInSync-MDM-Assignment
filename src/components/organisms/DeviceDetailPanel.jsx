@@ -16,8 +16,6 @@ export default function DeviceDetailPanel() {
   const dispatch = useDispatch();
   const device = useSelector(selectSelectedDevice);
   const onClose = () => dispatch(setSelectedDevice(null));
-
-  // Handle browser back button for mobile UX
   useEffect(() => {
     if (device) {
       window.history.pushState({ type: 'deviceDetail' }, '');

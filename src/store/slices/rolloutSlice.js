@@ -42,6 +42,35 @@ const rolloutSlice = createSlice({
     },
     setSelectedRollout: (state, action) => {
       state.selectedRollout = action.payload;
+    },
+    simulateProgress: (state) => {
+      state.rollouts.forEach(rollout => {
+        if (rollout.status === 'Active' && rollout.progress < 100) {
+          const inc = Math.floor(Math.random() * 5) + 1;
+          rollout.progress = Math.min(100, rollout.progress + inc);
+          if (rollout.stages.scheduled > 0) {
+            const move = Math.floor(Math.random() * 50) + 10;
+            const actualMove = Math.min(rollout.stages.scheduled, move);
+            rollout.stages.scheduled -= actualMove;
+            rollout.stages.notified += actualMove;
+          } else if (rollout.stages.notified > 0) {
+            const move = Math.floor(Math.random() * 40) + 5;
+            const actualMove = Math.min(rollout.stages.notified, move);
+            rollout.stages.notified -= actualMove;
+            rollout.stages.downloading += actualMove;
+          } else if (rollout.stages.downloading > 0) {
+            const move = Math.floor(Math.random() * 30) + 5;
+            const actualMove = Math.min(rollout.stages.downloading, move);
+            rollout.stages.downloading -= actualMove;
+            rollout.stages.installing += actualMove;
+          } else if (rollout.stages.installing > 0) {
+            const move = Math.floor(Math.random() * 20) + 5;
+            const actualMove = Math.min(rollout.stages.installing, move);
+            rollout.stages.installing -= actualMove;
+            rollout.stages.completed += actualMove;
+          }
+        }
+      });
     }
   },
   extraReducers: (builder) => {
@@ -52,7 +81,9 @@ const rolloutSlice = createSlice({
       })
       .addCase(fetchRollouts.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.rollouts = action.payload;
+        const existingIds = new Set(state.rollouts.map(r => r.id));
+        const newItems = action.payload.filter(r => !existingIds.has(r.id));
+        state.rollouts = [...state.rollouts, ...newItems];
       })
       .addCase(fetchRollouts.rejected, (state, action) => {
         state.status = 'failed';
@@ -60,7 +91,7 @@ const rolloutSlice = createSlice({
       });
   }
 });
-export const { setRollouts, addRollout, togglePause, approveRollout, cancelRollout, setSelectedRollout } = rolloutSlice.actions;
+export const { setRollouts, addRollout, togglePause, approveRollout, cancelRollout, setSelectedRollout, simulateProgress } = rolloutSlice.actions;
 export const selectAllRollouts = (state) => state.rollouts.rollouts;
 export const selectSelectedRollout = (state) => state.rollouts.selectedRollout;
 export const selectRolloutStatus = (state) => state.rollouts.status;

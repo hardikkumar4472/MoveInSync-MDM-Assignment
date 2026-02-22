@@ -98,9 +98,7 @@ export default function DeviceInventory({ devices, onDeviceClick, initialFilter 
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <button className="p-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-400 dark:text-slate-500 hover:text-ms-green hover:bg-white dark:hover:bg-slate-900 transition-all shrink-0 shadow-sm">
-              <Filter size={18} />
-            </button>
+
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-2">

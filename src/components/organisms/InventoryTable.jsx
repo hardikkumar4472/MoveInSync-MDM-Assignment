@@ -56,9 +56,7 @@ export default function InventoryTable({ devices, onDeviceClick, onSort, searchT
           >
             Reset
           </button>
-          <Button variant="secondary" size="icon" className="rounded-xl p-2.5" ariaLabel="More filters">
-            <Filter size={20} />
-          </Button>
+
         </div>
       </div>
       <div className="bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col min-h-[400px]">

@@ -59,7 +59,8 @@ export default function RolloutMonitor({ rollouts, userRole }) {
               key={rollout.id}
               className={cn(
                 "bg-white dark:bg-slate-900 rounded-[2rem] p-8 md:p-12 shadow-sm border border-slate-100 dark:border-slate-800 relative group transition-all duration-500",
-                rollout.status === 'Paused' && "border-amber-200 bg-amber-50/10"
+                rollout.status === 'Paused' && "border-amber-200 bg-amber-50/10",
+                rollout.status === 'Pending Approval' && "border-indigo-100 bg-indigo-50/10 dark:bg-indigo-500/5 shadow-lg shadow-indigo-500/5"
               )}
             >
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-16">
@@ -72,8 +73,8 @@ export default function RolloutMonitor({ rollouts, userRole }) {
                       <h4 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{rollout.name}</h4>
                       <Badge variant={
                         rollout.status === 'Active' ? 'success' : 
-                        rollout.status === 'Pending Approval' ? 'warning' : 'warning'
-                      }>
+                        rollout.status === 'Pending Approval' ? 'info' : 'warning'
+                      } className={cn(rollout.status === 'Pending Approval' && "animate-pulse")}>
                         {rollout.status}
                       </Badge>
                     </div>

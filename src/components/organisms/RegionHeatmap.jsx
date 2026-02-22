@@ -52,7 +52,7 @@ export default function RegionHeatmap({ data, onRegionClick }) {
                 onRegionClick(state.activeLabel);
               }
             }}
-            margin={{ top: 0, right: 0, left: 0, bottom: 20 }}
+            margin={{ top: 0, right: 0, left: 0, bottom: 40 }}
             style={{ cursor: 'pointer' }}
           >
             <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="currentColor" className="text-slate-100 dark:text-slate-800" />
@@ -61,6 +61,7 @@ export default function RegionHeatmap({ data, onRegionClick }) {
               axisLine={false} 
               tickLine={false} 
               tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }}
+              interval={0}
               dy={15}
             />
             <YAxis 

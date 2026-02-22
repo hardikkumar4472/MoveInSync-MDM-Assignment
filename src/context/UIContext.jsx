@@ -33,6 +33,7 @@ export function UIProvider({ children }) {
     setActiveTab(tab);
     setShowSchedulingForm(false);
     setIsMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
   const handleRoleChange = useCallback((roleId) => {
     setUserRole(roleId);
@@ -74,8 +75,6 @@ export function UIProvider({ children }) {
   const closeSchedulingForm = useCallback(() => {
     setShowSchedulingForm(false);
   }, []);
-
-  // Sync with browser back button
   useEffect(() => {
     const handlePopState = (e) => {
       if (alert.isOpen) {

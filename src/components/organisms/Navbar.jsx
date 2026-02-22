@@ -40,12 +40,12 @@ export default function Navbar({ roles, onLogout }) {
           <div className="hidden lg:flex items-center gap-6 flex-shrink-0" role="list">
             <TopNavItem
               label={t('nav.dashboard')}
-              active={(activeTab === 'inventory' || activeTab === 'audit') && !showSchedulingForm}
+              active={activeTab === 'inventory' && !showSchedulingForm}
               onClick={() => setActiveTab('inventory')}
             />
             <TopNavItem
               label={t('nav.monitoring')}
-              active={activeTab === 'monitor'}
+              active={activeTab === 'monitor' && !showSchedulingForm}
               onClick={() => setActiveTab('monitor')}
             />
             <TopNavItem
@@ -57,7 +57,7 @@ export default function Navbar({ roles, onLogout }) {
             />
             <TopNavItem
               label={t('nav.auditLogs')}
-              active={activeTab === 'audit'}
+              active={activeTab === 'audit' && !showSchedulingForm}
               disabled={userRole !== 'admin'}
               onClick={userRole === 'admin' ? () => setActiveTab('audit') : undefined}
               tooltip={userRole !== 'admin' ? "Administrator account required" : ""}
@@ -140,12 +140,12 @@ export default function Navbar({ roles, onLogout }) {
             <div className="flex flex-col gap-4" role="list">
               <TopNavItem
                 label={t('nav.dashboard')}
-                active={(activeTab === 'inventory' || activeTab === 'audit') && !showSchedulingForm}
+                active={activeTab === 'inventory' && !showSchedulingForm}
                 onClick={() => setActiveTab('inventory')}
               />
               <TopNavItem
                 label={t('nav.monitoring')}
-                active={activeTab === 'monitor'}
+                active={activeTab === 'monitor' && !showSchedulingForm}
                 onClick={() => setActiveTab('monitor')}
               />
               <TopNavItem
@@ -157,7 +157,7 @@ export default function Navbar({ roles, onLogout }) {
               />
               <TopNavItem
                 label={t('nav.auditLogs')}
-                active={activeTab === 'audit'}
+                active={activeTab === 'audit' && !showSchedulingForm}
                 disabled={userRole !== 'admin'}
                 onClick={userRole === 'admin' ? () => setActiveTab('audit') : undefined}
                 tooltip={userRole !== 'admin' ? "Administrator account required" : ""}

@@ -13,6 +13,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   } 
   html.dark {
     color-scheme: dark;
@@ -22,5 +24,26 @@
   }
   html.dark body {
     @apply bg-slate-950 text-slate-100;
+  }
+
+  /* Custom Premium Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 dark:bg-slate-800 rounded-full transition-colors border-2 border-transparent bg-clip-padding hover:bg-ms-green/40 active:bg-ms-green/60;
+  }
+  
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.slate.200') transparent;
+  }
+  .dark * {
+    scrollbar-color: theme('colors.slate.800') transparent;
   }
 }
