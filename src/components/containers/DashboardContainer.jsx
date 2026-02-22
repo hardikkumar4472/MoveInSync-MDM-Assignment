@@ -147,19 +147,23 @@ export default function DashboardContainer({ onLogout }) {
               />
             ) : (
               <>
-                <section className="grid grid-cols-1 xl:grid-cols-5 gap-10">
-                  <div className="xl:col-span-3">
+                <section className="grid grid-cols-1 xl:grid-cols-5 gap-10 min-h-[500px]">
+                  <div className="xl:col-span-3 flex flex-col">
                     {deviceStatus === 'loading' ? (
                       <Skeleton className="h-[500px] rounded-[2.5rem]" />
                     ) : (
-                      <HeatmapCard data={heatmapData} onRegionClick={handleRegionClick} />
+                      <div className="flex-1 min-h-[500px]">
+                        <HeatmapCard data={heatmapData} onRegionClick={handleRegionClick} />
+                      </div>
                     )}
                   </div>
-                  <div className="xl:col-span-2">
+                  <div className="xl:col-span-2 flex flex-col">
                     {deviceStatus === 'loading' ? (
                       <Skeleton className="h-full min-h-[500px] rounded-[2.5rem]" />
                     ) : (
-                      <PropagationCard userRole={userRole} onShowScheduling={openSchedulingForm} />
+                      <div className="flex-1">
+                        <PropagationCard userRole={userRole} onShowScheduling={openSchedulingForm} />
+                      </div>
                     )}
                   </div>
                 </section>

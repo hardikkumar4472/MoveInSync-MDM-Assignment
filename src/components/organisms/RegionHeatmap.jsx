@@ -43,8 +43,8 @@ export default function RegionHeatmap({ data, onRegionClick }) {
         </div>
       </div>
       
-      <div className="flex-1 w-full relative min-h-0">
-        <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0} debounce={50}>
+      <div className="flex-1 w-full relative min-h-0 min-h-[400px]">
+        <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             onClick={(state) => {

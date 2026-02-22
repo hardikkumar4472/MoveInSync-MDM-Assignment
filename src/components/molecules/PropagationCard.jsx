@@ -4,12 +4,13 @@ import { cn } from '../../lib/utils';
 import Typography from '../atoms/Typography';
 import Button from '../atoms/Button';
 import Card from './Card';
+
 export default function PropagationCard({ userRole, onShowScheduling }) {
   const { t } = useTranslation();
   const isAnalyst = userRole === 'analyst';
   
   return (
-    <Card className="p-12 text-slate-900 dark:text-white flex flex-col justify-between group">
+    <Card className="p-12 text-slate-900 dark:text-white flex flex-col justify-between group h-full">
       <div className="relative z-10">
         <Typography variant="label" className="text-ms-green mb-6">{t('propagation.title')}</Typography>
         <Typography variant="h3" as="h3" className="mb-4 leading-tight italic">
